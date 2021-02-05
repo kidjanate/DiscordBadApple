@@ -1,6 +1,6 @@
 from PIL import Image
 import time
-ASCII_CHARS = ["-", "#", "S", "%", "?", "*", "+", ";", ":", ",", "@"]
+ASCII_CHARS = [" ", "#"]
 
 def resized_gray_image(image ,new_width=70):
 	width,height = image.size
@@ -56,7 +56,8 @@ async def badapple(ctx):
 			if frame != None:
 				if isCreated == False:
 					msg = await ctx.send(frame)
-					isCreated = True
+					#isCreated = True
+					time.sleep(0.3)
 				else:
 					await msg.edit(content=frame)
 					time.sleep(1.2)
