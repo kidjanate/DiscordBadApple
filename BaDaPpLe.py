@@ -1,6 +1,6 @@
 from PIL import Image
 import time
-ASCII_CHARS = [" ", "#"]
+ASCII_CHARS = ["-", "-","-","-","-","-","-","-","-","-", "@"]
 
 def resized_gray_image(image ,new_width=70):
 	width,height = image.size
@@ -11,7 +11,7 @@ def resized_gray_image(image ,new_width=70):
 
 def pix2chars(image):
 	pixels = image.getdata()
-	characters = "".join([ASCII_CHARS[pixel//2] for pixel in pixels])
+	characters = "".join([ASCII_CHARS[pixel//25] for pixel in pixels])
 	return characters
 
 def generate_frame(image,new_width=70):
