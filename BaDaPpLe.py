@@ -53,8 +53,12 @@ async def badapple(ctx):
 			img = Image.open(f"frames/frame{i}.jpg")
 			frame = generate_frame(img,60)
 			if frame != None:
-				msg = await ctx.send(frame)
-				await ctx.send("`_____________________________________________________________`")
+				if isCreated == True:
+					msg = await ctx.send(frame)
+					
+				else:
+					await msg.edit(content=frame)
+					isCreated = True
 		await ctx.send("That's all")
 				
 
