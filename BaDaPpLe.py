@@ -45,7 +45,7 @@ async def on_ready():
 
 @bot.command()
 async def badapple(ctx):
-	if(ctx.channel.id == 807155469071155200):
+	if(ctx.channel.id == 807186290830737409):
 		i = 0
 		isCreated = False
 		msg = None
