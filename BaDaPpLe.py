@@ -1,5 +1,5 @@
 from PIL import Image
-import asyncio
+import time
 ASCII_CHARS = ["-", "#", "S", "%", "?", "*", "+", ";", ":", ",", "@"]
 
 def resized_gray_image(image ,new_width=70):
@@ -59,7 +59,7 @@ async def badapple(ctx):
 					isCreated = True
 				else:
 					await msg.edit(content=frame)
-					asyncio.sleep(1.2)
+					time.sleep(1.2)
 					
 		await ctx.send("That's all")
 				
