@@ -30,6 +30,7 @@ def generate_frame(image,new_width=70):
 
 import discord
 from discord.ext import commands
+import time
 import os
 TOKEN = os.getenv("TOKEN")
 PREFIX = 'b.'
@@ -54,8 +55,13 @@ async def badapple(ctx):
 			img = Image.open(f"frames/frame{i}.jpg")
 			frame = generate_frame(img,60)
 			if frame != None:
-				msg = await ctx.send(frame)
-				await ctx.send("`_____________________________________________________________`")
+				if isCreated == False:
+					msg = await ctx.send(frame)
+					isCreated = True
+					time.sleep(0.3)
+				else:
+					await msg.edit(content=frame)
+					time.sleep(0.3)
 		await ctx.send("That's all")
 				
 
