@@ -49,7 +49,7 @@ async def badapple(ctx):
 		i = 0
 		isCreated = False
 		msg = None
-		while i < 7000:
+		while i < 7543:
 			i = i + 10
 			img = Image.open(f"frames/frame{i}.jpg")
 			frame = generate_frame(img,60)
