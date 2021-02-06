@@ -30,8 +30,9 @@ def generate_frame(image,new_width=70):
 
 
 import discord
+import os
 from discord.ext import commands
-TOKEN = 'ODA3MTU1NTQxNDkwMjcwMjE4.YBz4LQ.j8Nh4mB1qWMLkIglJd3F0bo7dWQ'
+TOKEN = os.getenv("TOKEN")
 PREFIX = 'b.'
 INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS)
