@@ -1,37 +1,39 @@
-from PIL import Image
 import time
-ASCII_CHARS = ["-", "-","-","-","-","-","-","-","-","-", "@"]
+import os
+import discord
+from discord.ext import commands
+from PIL import Image
+import cv2
 
-def resized_gray_image(image ,new_width=70):
-	width,height = image.size
-	aspect_ratio = height/width
+ASCII_CHARS = ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "@"]
+
+
+def resized_gray_image(image, new_width=70):
 	new_height = 20
-	resized_gray_image = image.resize((new_width,new_height)).convert('L')
-	return resized_gray_image
+	resized_gray = image.resize((new_width, new_height)).convert('L')
+	return resized_gray
+
 
 def pix2chars(image):
 	pixels = image.getdata()
-	characters = "".join([ASCII_CHARS[pixel//25] for pixel in pixels])
+	characters = "".join([ASCII_CHARS[pixel // 25] for pixel in pixels])
 	return characters
 
-def generate_frame(image,new_width=70):
-	new_image_data = pix2chars(resized_gray_image(image,new_width=new_width))
+
+def generate_frame(image, new_width=70):
+	new_image_data = pix2chars(resized_gray_image(image, new_width=new_width))
 
 	total_pixels = len(new_image_data)
 	print(total_pixels)
 
-	ascii_image = "\n".join([new_image_data[index:(index+new_width)] for index in range(0, total_pixels, new_width)])
-
-	return "`"+ascii_image+"`"
+	ascii_image = "\n".join([new_image_data[index:(index + new_width)] for index in range(0, total_pixels, new_width)])
 	"""
-	sys.stdout.write(ascii_image)
-	os.system('cls' if os.name == 'nt' else 'clear')
-	"""
+		sys.stdout.write(ascii_image)
+		os.system('cls' if os.name == 'nt' else 'clear')
+		"""
+	return "`" + ascii_image + "`"
 
 
-import discord
-import os
-from discord.ext import commands
 TOKEN = os.getenv("TOKEN")
 PREFIX = 'b.'
 INTENTS = discord.Intents.default()
@@ -46,30 +48,25 @@ async def on_ready():
 
 @bot.command()
 async def badapple(ctx):
-	if(ctx.channel.id == 807186290830737409):
-		i = 0
-		isCreated = False
-		msg = None
-		while i < 7000:
-			i = i + 3
-			img = Image.open(f"frames/frame{i}.jpg")
-			frame = generate_frame(img,60)
-			if frame != None:
-				if isCreated == False:
-					msg = await ctx.send(frame)
-					#isCreated = True
-					time.sleep(0.3)
-				else:
-					await msg.edit(content=frame)
-					time.sleep(1.2)
-					
-		await ctx.send("That's all")
-				
+	iscreated = False
+	msg = None
+	cap = cv2.VideoCapture('bad_apple.mp4')
+	i = 0
+	while cap.isOpened():
+		ret, frame = cap.read()
+		if not ret:
+			break
+		if not i % 10:
+			asciiframe = generate_frame(Image.fromarray(frame), 70)
+			if not iscreated:
+				msg = await ctx.send(asciiframe)
+				# iscreated = True
+				time.sleep(0.3)
+			else:
+				await msg.edit(content=asciiframe)
+				time.sleep(1.2)
+		i += 1
+	await ctx.send("That's all")
 
 
 bot.run(TOKEN)
-
-
-
-
-	
